@@ -1,0 +1,1005 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+:root {
+    --primary: #6366f1;
+    --bg: #0f172a;
+    --card: #1e293b;
+    --text: #f8fafc;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    scroll-behavior: smooth;
+}
+
+* {
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.page-section {
+    display: none;
+}
+
+main {
+    margin-top: 0;
+}
+
+.app-container {
+    display: flex;
+    height: 100svh;
+    width: 100%;
+}
+
+.side-menu {
+    width: 80px;
+    background: var(--card);
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0;
+    z-index: 1000;
+    border-right: 1px solid #334155;
+}
+
+.logo {
+    font-weight: bold;
+    font-size: 24px;
+    color: var(--primary);
+    margin-bottom: 50px;
+}
+
+.nav-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    flex-grow: 1;
+}
+
+.nav-btn {
+    background: none;
+    border: none;
+    color: #64748b;
+    font-size: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.nav-btn.active,
+.nav-btn:hover {
+    color: var(--primary);
+    transform: scale(1.2);
+}
+
+.content-area {
+    flex: 1;
+    padding: 40px;
+    margin-left: 90px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    text-align: left;
+}
+
+h1 span {
+    color: var(--primary);
+}
+
+/* XP Section */
+
+.xp-status {
+    background: var(--bg);
+    padding: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 20px;
+}
+
+#xp-count {
+    display: inline-block;
+    transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    /* دي اللي بتعمل النعومة والمطاطية */
+    will-change: transform, color;
+    /* بتعرف المتصفح يجهز كارت الشاشة للحركة */
+    font-variant-numeric: tabular-nums;
+}
+
+/* حالة الزيادة */
+.xp-pulse {
+    transform: scale(1.3) translateY(-2px);
+    /* بيكبر ويطلع لفوق بنعومة */
+    color: #5aa4ed !important;
+    text-shadow: 0 0 20px rgba(90, 164, 237, 0.6);
+}
+
+/* حالة النقص */
+.xp-drop {
+    transform: scale(0.8) translateY(3px);
+    /* بيصغر وينزل لتحت بنعومة */
+    color: #ff4d4d !important;
+}
+
+.page-section {
+    text-align: center;
+}
+
+/* home section */
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.stat-card {
+    background: var(--card);
+    padding: 20px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.stat-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--primary);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.stat-card i {
+    font-size: 30px;
+    color: var(--primary);
+}
+
+.stat-info span {
+    font-size: 24px;
+    font-weight: bold;
+    display: block;
+}
+
+.quote-container {
+    padding: 20px;
+    font-weight: 900;
+    margin-top: 40px;
+    padding: 30px;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(167, 139, 250, 0.1));
+    border-radius: 20px;
+    font-style: italic;
+    border-left: 5px solid var(--primary);
+}
+
+/* ضيف ده في ملف الـ CSS */
+#tasks-done,
+#current-xp-home {
+    display: inline-block;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    font-variant-numeric: tabular-nums;
+}
+
+/* كلاس هنضيفه بالـ JS لحظة التغيير عشان يعمل "نبضة" خفيفة */
+.stat-update {
+    transform: scale(1.2);
+    color: var(--primary);
+}
+
+.main-progress-circle {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 20px auto;
+}
+
+svg {
+    transform: rotate(-90deg);
+    /* عشان يبدأ من فوق */
+}
+
+circle {
+    fill: none;
+    stroke-width: 10;
+    stroke-linecap: round;
+}
+
+circle.bg {
+    stroke: #1e293b;
+}
+
+
+.progress-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+#progress-percent {
+    font-size: 32px;
+    font-weight: 800;
+    display: block;
+}
+
+circle.progress {
+    stroke: var(--primary);
+    stroke-dasharray: 565;
+    /* ده السطر الأساسي اللي بيعرف طول المحيط */
+    stroke-dashoffset: 565;
+    /* ده بيخليها تبدأ وهي فاضية */
+    stroke-linecap: round;
+    /* بيخلي قفلة الدائرة ناعمة مش مقصوصة */
+}
+
+#progress-circle {
+    stroke-dasharray: 565;
+    stroke-dashoffset: 565;
+    /* القيمة الابتدائية دايماً مخفية */
+}
+
+.animate-circle {
+    transition: stroke-dashoffset 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+
+/* ------------------------------- */
+
+.planner-container {
+    max-width: 100%;
+    overflow-x: hidden;
+    margin: 20px auto;
+}
+
+.input-group {
+    display: flex;
+    gap: 10px;
+    flex-wrap: nowrap;
+    margin-bottom: 20px;
+}
+
+/* --- 1. Input Section --- */
+#taskInput {
+    flex-grow: 1;
+    background: var(--card);
+    border: 1px solid #334155;
+    padding: 12px 15px;
+    border-radius: 10px;
+    color: white;
+    outline: none;
+    transition: 0.3s;
+}
+
+#taskInput:focus {
+    border-color: var(--primary);
+}
+
+#taskInput,
+#taskCategory,
+#taskPriority,
+#addBtn {
+    width: auto;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+
+
+/* Categories  */
+
+/* The sections options list */
+#taskCategory {
+    background: var(--card);
+    border: 1px solid #334155;
+    color: #e2e8f0;
+    padding: 10px;
+    border-radius: 10px;
+    outline: none;
+    cursor: pointer;
+    transition: 0.3s;
+    text-align: center;
+    font-family: inherit;
+
+}
+
+#taskCategory:hover {
+    border-color: var(--primary);
+}
+
+/* the badge beside the text of the input  */
+.category-badge {
+    display: inline-block;
+    width: 80px;
+    text-align: center;
+    font-size: 14px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-weight: 600;
+    margin-left: 36px;
+    /* مسافة بينه وبين النص */
+}
+
+/* styling for every value */
+
+/* blue */
+.study {
+    background: rgba(59, 130, 246, 0.2);
+    color: #60a5fa;
+    border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+/* light purple */
+.homework {
+    background: rgba(167, 139, 250, 0.2);
+    color: #a78bfa;
+    border: 1px solid rgba(167, 139, 250, 0.3);
+}
+
+/* orange */
+.review {
+    background: rgba(245, 158, 11, 0.2);
+    color: #fbbf24;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+/* red */
+.exam {
+    background: rgba(239, 68, 68, 0.2);
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+/* green */
+.applications {
+    background: rgba(16, 185, 129, 0.2);
+    color: #34d399;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+
+#addBtn {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 0 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#addBtn:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+}
+
+/* --- 2. Task List Structure --- */
+#taskList {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+.task-item {
+    background: #1e293b;
+    border: 1px solid #334155;
+    padding: 14px 20px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    cursor: pointer;
+    animation: fadeIn 0.3s ease-out;
+    transition: transform 0.6s cubic-bezier(0.18, 0.89, 0.32, 1.28), opacity 0.4s ease;
+    will-change: transform, opacity;
+}
+
+.task-item:hover {
+    border-color: var(--primary);
+}
+
+/* --- 3. Custom Checkbox Logic --- */
+
+.isCompleted {
+    display: none;
+    /* إخفاء التشيك بوكس الأصلي */
+}
+
+.custom-check {
+    width: 22px;
+    height: 22px;
+    border: 2px solid #475569;
+    border-radius: 50%;
+    position: relative;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+}
+
+.task-text {
+    display: inline-block;
+    /* min-width: 80px;
+    max-width: 120px; */
+    width: 120px;
+    word-break: break-word;
+    line-height: 1.4;
+    padding-right: 15px;
+    margin-right: 15px;
+    font-size: 16px;
+    font-weight: 500;
+    text-align: left;
+    color: #e2e8f0;
+    transition: 0.3s;
+}
+
+#taskPriority {
+    background: var(--card);
+    color: white;
+    border: 1px solid #334155;
+    border-radius: 10px;
+    padding: 10px;
+    text-align: center;
+    transition: 0.3s;
+    cursor: pointer
+}
+
+#taskPriority:hover {
+    border-color: var(--primary)
+}
+
+.priority-badge {
+    display: inline-block;
+    width: 70px;
+    text-align: center;
+    font-size: 12px;
+    padding: 2px 8px;
+    border-radius: 6px;
+    margin-right: 15px;
+    background: "";
+    font-weight: bold;
+}
+
+/* styling for every priority */
+
+/* green (normal) */
+.p-low {
+    color: #10b981;
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+/* medium (yellow) */
+.p-medium {
+    color: #f59e0b;
+    background: rgba(245, 158, 11, 0.1);
+    border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+/* high (red) */
+.p-high {
+    color: #ef4444;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+/* Checked status (the circle become purple and the text become linethrough) */
+.isCompleted:checked+.custom-check {
+    background-color: var(--primary);
+    border-color: var(--primary);
+    transform: scale(1.1);
+}
+
+.isCompleted:checked~.task-text {
+    text-decoration: line-through;
+    opacity: 0.5;
+    color: #64748b;
+}
+
+/* drawing the right symbol inside the circle */
+.custom-check::after {
+    content: '';
+    position: absolute;
+    left: 8px;
+    top: 4px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg) scale(0);
+    transition: 0.2s ease;
+}
+
+.isCompleted:checked+.custom-check::after {
+    transform: rotate(45deg) scale(1);
+}
+
+.task-body {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-grow: 1;
+}
+
+
+/* --- 4. Controls Buttons --- */
+.controlsButtons {
+    display: flex !important;
+    flex-direction: row !important;
+    /* جنب بعض بالعرض */
+    justify-content: center !important;
+    /* في النص */
+    align-items: center !important;
+    gap: 10px !important;
+    min-width: fit-content !important;
+    width: auto !important;
+    margin: 10px auto 0 !important;
+    /* سنترة الحاوية نفسها */
+}
+
+.controlsButtons button {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Edit Button */
+.controlsButtons .edit-btn {
+    background: rgba(99, 102, 241, 0.1);
+    color: #818cf8;
+}
+
+.controlsButtons .edit-btn:hover {
+    background: var(--primary);
+    color: white;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+    transform: translateY(-2px);
+}
+
+/* Delete Button */
+.controlsButtons .delete-btn {
+    background: rgba(239, 68, 68, 0.1);
+    color: #f87171;
+}
+
+.controlsButtons .delete-btn:hover {
+    background: #ef4444;
+    color: white;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+    transform: translateY(-2px);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+.fadeOut {
+    transform: translateY(-10px);
+    opacity: 0;
+}
+
+
+.fall {
+    transform: translateY(30px) rotate(2deg) !important;
+    opacity: 0 !important;
+    pointer-events: none;
+}
+
+/* 
+    ==============================
+            Responsiveness
+    =============================
+*/
+@media (max-width: 600px) {
+    .controlsButtons button {
+        width: 42px;
+        height: 42px;
+        font-size: 18px;
+        /* تكبير الأيقونة شوية لسهولة اللمس */
+    }
+}
+
+/* The prayers section */
+
+.current-date {
+    font-size: 20px;
+    padding: 20px;
+}
+
+
+#prayerlist {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* توسيط كل محتويات القسم */
+    gap: 20px;
+}
+
+table {
+    border-collapse: separate;
+    /* عشان الـ border-radius يشتغل صح */
+    border-spacing: 0;
+    border: 1px solid var(--text);
+    border-radius: 20px;
+    overflow: hidden;
+    /* عشان حدود الجدول متطلعش برا الزوايا المنحنية */
+    width: 100%;
+    max-width: 400px;
+    /* عشان ميبقاش عريض بزيادة */
+}
+
+table th,
+table td {
+    padding: 15px 25px;
+    font-size: 18px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    /* خط بسيط بين الصلوات */
+}
+
+table tr:last-child td {
+    border-bottom: none;
+    /* شيل الخط من آخر صلاة */
+}
+
+table th {
+    background: rgba(99, 102, 241, 0.1);
+    /* تمييز الهيدر بلون خفيف */
+    color: var(--primary);
+}
+
+.elSalah-quotes {
+    font-size: 20px;
+    font-weight: 900;
+}
+
+.timer-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 23, 42, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.timer-card {
+    background: var(--card);
+    padding: 40px;
+    border-radius: 30px;
+    border: 2px solid var(--primary);
+    text-align: center;
+    box-shadow: 0 0 50px rgba(99, 102, 241, 0.3);
+}
+
+.timer-display {
+    font-size: 80px;
+    font-weight: 800;
+    color: var(--primary);
+    margin: 20px 0;
+    font-family: 'Courier New', monospace;
+}
+
+.timer-btn {
+    padding: 12px 30px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    margin: 5px;
+    transition: 0.3s;
+}
+
+.timer-btn.primary {
+    background: var(--primary);
+    color: white;
+}
+
+.timer-btn.danger {
+    background: #ef4444;
+    color: white;
+}
+
+.start-timer-btn {
+    background: rgba(16, 185, 129, 0.1) !important;
+    color: #10b981 !important;
+}
+
+.start-timer-btn:hover {
+    background: #10b981 !important;
+    color: white !important;
+}
+
+#cancel-timer-btn {
+    cursor: pointer;
+    touch-action: manipulation;
+    /* بيسرع استجابة اللمس على الموبايل */
+    -webkit-tap-highlight-color: transparent;
+    /* بيشيل اللون الأزرق اللي بيظهر لما تلمس */
+}
+
+#time-selector-area {
+    margin-bottom: 20px;
+    color: #94a3b8;
+}
+
+#time-slider {
+    width: 100%;
+    margin: 15px 0;
+    accent-color: var(--primary);
+    /* لون المقبض */
+    cursor: pointer;
+}
+
+#selected-minutes {
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--primary);
+}
+
+.timer-quote {
+    direction: rtl;
+    text-align: center;
+    display: block;
+    /* عشان يملأ العرض ويتسنتر صح */
+    margin-top: 10px;
+    font-weight: bold;
+    color: #94a3b8;
+    /* لون هادي يليق مع الثيم */
+}
+
+/* --- Media Queries: Responsive Design --- */
+
+/* 1. للشاشات المتوسطة (Tablets) */
+@media (max-width: 1024px) {
+    .app-container {
+        height: auto;
+        overflow-x: hidden;
+        flex-direction: column;
+        /* ترتيب العناصر فوق بعض */
+        min-height: 100vh;
+    }
+
+    .input-group {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    #taskInput,
+    #taskCategory,
+    #taskPriority,
+    #addBtn {
+        width: 100% !important;
+        /* اجبرهم ياخدوا العرض كامل في الموبايل بس */
+        height: 50px;
+        /* توحيد الطول عشان الشكل يبقى أنظف */
+    }
+
+    .task-item {
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: center !important;
+        padding: 20px !important;
+        gap: 15px !important;
+    }
+
+    .task-body {
+        width: 100% !important;
+        flex-direction: column !important;
+        /* النص والتشيك بوكس فوق بعض */
+        align-items: center !important;
+        margin: 0 !important;
+        gap: 10px !important;
+    }
+
+    .task-text {
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        text-align: center !important;
+        /* توسيط نص المهمة */
+        max-width: unset !important;
+        font-size: 20px !important;
+    }
+
+    .controlsButtons {
+        display: grid !important;
+        grid-template-columns: repeat(3, 50px) !important;
+        /* 3 أعمدة عرض كل واحد 50px */
+        justify-content: center !important;
+        /* سنتر الشبكة كلها في نص الكارت */
+        gap: 15px !important;
+        /* مسافة بين الزراير */
+        width: 100% !important;
+        margin-top: 15px !important;
+        padding-top: 15px !important;
+        border-top: 1px solid rgba(255, 255, 255, 0.05) !important;
+    }
+
+    /* الأزرار: بنجبرها تاخد حجم العمود وم تنزلش سطر جديد */
+    .controlsButtons button,
+    .controlsButtons .start-timer-btn,
+    .controlsButtons .edit-btn,
+    .controlsButtons .delete-btn {
+        width: 50px !important;
+        height: 50px !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border-radius: 12px !important;
+        float: none !important;
+        /* عشان لو فيه float قديم بيبوظ الدنيا */
+    }
+
+    .side-menu {
+        width: 100%;
+        /* تاخد العرض كامل */
+        height: 70px;
+        /* ارتفاع مناسب لليد */
+        position: fixed;
+        /* تثبيت تحت */
+        bottom: 0;
+        left: 0;
+        flex-direction: row;
+        /* الأزرار جنب بعض */
+        justify-content: space-around;
+        /* توزيع متساوي */
+        padding: 0;
+        border-right: none;
+        border-top: 1px solid #334155;
+        border-radius: 20px 20px 0 0;
+        /* شكل جمالي من فوق */
+    }
+
+    .logo {
+        display: none;
+        /* نخفي اللوجو عشان الزحمة تحت */
+    }
+
+    .nav-menu {
+        flex-direction: row;
+        /* الأزرار أفقي */
+        width: 100%;
+        justify-content: space-around;
+        gap: 0;
+        margin-top: 0;
+    }
+
+    .nav-btn {
+        font-size: 24px;
+        /* تكبير الأيقونات لللمس */
+        padding: 10px;
+    }
+
+    .xp-status {
+        margin: 0;
+        padding: 5px 10px;
+        flex-direction: row;
+        gap: 5px;
+    }
+
+    .content-area {
+        margin-left: 0;
+        /* نلغي الهامش الجانبي */
+        margin-bottom: 80px;
+        /* مسافة عشان المحتوى ميتغطاش بالمنيو اللي تحت */
+        padding: 20px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    /* تظبيط الكروت عشان متبقاش مخنوقة */
+    .stats-grid {
+        grid-template-columns: 1fr;
+        /* كارت واحد في كل سطر للموبايل */
+        width: 100%;
+    }
+
+    /* 3. البادجات: شيل الـ margin-left الثابت وخليهم جنب بعض في السنتر */
+    .category-badge,
+    .priority-badge {
+        margin: 5px !important;
+        /* مسافة بسيطة بينهم */
+        display: inline-block !important;
+        width: auto !important;
+        min-width: 80px;
+    }
+}
+
+/* 2. للشاشات الصغيرة (Mobile Phones) */
+@media (max-width: 768px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    /* نلغي الترتيب القديم اللي كان بيبوظ الدنيا */
+    .task-item {
+        flex-direction: column !important;
+        /* نضمن إنه عمودي */
+        align-items: center !important;
+        /* سنتر كل حاجة */
+        padding: 20px !important;
+    }
+
+    .task-body {
+        width: 100% !important;
+        justify-content: center !important;
+        margin-bottom: 10px;
+    }
+
+    /* دي اللي كانت عاملة الأزمة - خليناها Grid زي الـ 1024 */
+    .controlsButtons {
+        display: grid !important;
+        grid-template-columns: repeat(3, 50px) !important;
+        /* 3 أعمدة ثابتة جنب بعض */
+        justify-content: center !important;
+        /* سنترة في نص الشاشة */
+        gap: 15px !important;
+        width: 100% !important;
+        border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+        padding-top: 15px !important;
+    }
+
+    /* نضمن إن الزراير متفرشش */
+    .controlsButtons button {
+        width: 50px !important;
+        height: 50px !important;
+        margin: 0 !important;
+    }
+
+    .timer-card {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .timer-display {
+        font-size: 50px;
+    }
+}
+
+/* 3. للشاشات الصغيرة جداً (Tiny Phones) */
+@media (max-width: 480px) {
+    .task-input-group {
+        flex-direction: column;
+    }
+
+    #addBtn {
+        width: 100%;
+    }
+
+    .category-badge,
+    .priority-badge {
+        font-size: 0.7rem;
+        padding: 2px 8px;
+    }
+}

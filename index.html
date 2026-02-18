@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+    <script src="prayers.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+</head>
+
+<body>
+    <div class="app-container">
+        <aside class="side-menu">
+            <div class="logo">SB</div>
+            <nav class="nav-menu">
+                <button class="nav-btn active" onclick="showPage('home', event)"><i class="fas fa-home"></i></button>
+                <button class="nav-btn" onclick="showPage('planner', event)"><i class="fas fa-calendar"></i></button>
+                <button class="nav-btn" onclick="showPage('prayers',event)"><i class="fas fa-pray"></i></button>
+                <button class="nav-btn"><i class="fas fa-trophy"></i></button>
+                <div class="xp-status"><span>⭐</span><span id="xp-count">0</span></div>
+            </nav>
+        </aside>
+        <div class="content-area">
+            <section id="home" class="page-section" dir="rtl">
+                <div>
+                    <h1>Study<span>Buddy</span></h1>
+                    <p>Your Sweet Partner In Studying.</p>
+                </div>
+                <div class="welcome-header">
+                    <h1 id="greeting">أهلاً بك يا بطل! ⚡</h1>
+                    <p class="subtitle">جاهز لإنجاز مهامك اليوم؟</p>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <i class="fas fa-check-circle"></i>
+                        <div class="stat-info">
+                            <span id="tasks-done">
+                                0
+                            </span>
+                            <p>مهام مكتملة</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-fire"></i>
+                        <div class="stat-info">
+                            <span id="current-xp-home">0</span>
+                            <p>إجمالي ال XP</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="main-progress-circle">
+                    <svg width="200" height="200">
+                        <circle class="bg" cx="100" cy="100" r="90"></circle>
+                        <circle class="progress" id="progress-circle" cx="100" cy="100" r="90"></circle>
+                    </svg>
+                    <div class="progress-text">
+                        <span id="progress-text">0%</span>
+                        <p>إنجاز اليوم</p>
+                    </div>
+                </div>
+
+                <div class="quote-container">
+                    <p id="daily-quote">
+                        "النجاح هو مجموع محاولات صغيرة تتكرر كل يوم."
+                    </p>
+                </div>
+            </section>
+
+            <section id="planner" class="page-section" style="display: none">
+                <h2>Daily Planner</h2>
+                <div class="planner-container">
+                    <div class="input-group">
+                        <input type="text" id="taskInput" placeholder="Add a new task ...">
+                        <select id="taskCategory" dir="rtl">
+                            <option value="Study">مذاكرة</option>
+                            <option value="HomeWork">واجب</option>
+                            <option value="Review">مراجعة</option>
+                            <option value="Exam">امتحان</option>
+                            <option value="Applications">تطبيق و حل</option>
+                        </select>
+
+                        <select id="taskPriority" dir="rtl">
+                            <option value="low">عادي 🟢</option>
+                            <option value="medium">متوسط 🟡</option>
+                            <option value="high">عاجل 🔴</option>
+                        </select>
+                        <button id="addBtn"><i class="fas fa-plus"></i></button>
+                    </div>
+
+                    <div id="pomodoro-overlay" class="timer-overlay" style="display:none">
+                        <div class="timer-card">
+                            <h2 id="timer-task-name">اسم المهمة الحالية</h2>
+
+                            <div id="time-selector-area">
+                                <p>Focus Time :</p>
+                                <input type="range" id="time-slider" min="5" max="90" value="25" step="5">
+                                <span id="selected-minutes">25 minutes</span>
+                            </div>
+
+                            <div class="timer-display" id="timer-countdown">25:00</div>
+                            <div class="timer-controls">
+                                <button id="pause-resume-btn" class="timer-btn primary">Pause</button>
+                                <button id="cancel-timer-btn" class="timer-btn danger">Cancel</button>
+                            </div>
+                            <p class="timer-quote">"ركز يا وحش، العالم بينتظرك! 🚀"</p>
+                        </div>
+                    </div>
+                    <ul id="taskList"></ul>
+                </div>
+            </section>
+
+            <section id="prayers" class="page-section" style="display:none">
+                <h2>Prayer Times</h2>
+                <div id="prayer-section" style="display: none">Loading...</div>
+                <div id="prayerlist">
+                    <thead>
+                        <th>الاذان</th>
+                        <th>الوقت</th>
+                    </thead>
+                    <div class="elSalah-quotes">
+                        <p>
+                            اول خطوات النجاح هي الصلاة
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <script>
+        function showPage(pageId, event) {
+            const sections = document.querySelectorAll(".page-section");
+            sections.forEach(section => {
+                section.style.display = "none"
+            });
+
+            const targetSection = document.getElementById(pageId);
+            if (targetSection) {
+                targetSection.style.display = "block";
+            }
+
+            document.querySelectorAll(".nav-btn").forEach(buttons => {
+                buttons.classList.remove("active");
+            })
+            event.currentTarget.classList.add("active")
+
+            localStorage.setItem("lastActivePage", pageId);
+
+
+            // updating the circle
+
+            const circle = document.getElementById("progress-circle");
+            if (pageId === 'home' && circle) {
+                // updatehomeStats();
+                const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+                const completed = tasks.filter(t => String(t.checked) === "true").length;
+                const currentPercent = tasks.length > 0 ? Math.round((completed / tasks.length) * 100) : 0;
+
+                const lastSeenPercent = localStorage.getItem("lastSeenPercent");
+
+                if (lastSeenPercent === null || currentPercent != lastSeenPercent) {
+                    circle.classList.remove("animate-circle");
+                    circle.style.transition = "none";
+                    circle.style.strokeDashoffset = "565";
+
+                    void circle.offsetWidth;
+
+                    setTimeout(() => {
+                        circle.style.transition = "stroke-dashoffset 1.5s cubic-bezier(0.4, 0, 0.2, 1)";
+                        const targetOffset = 565 - (565 * currentPercent) / 100;
+                        circle.style.strokeDashoffset = targetOffset;
+                        updatehomeStats();
+                        localStorage.setItem("lastSeenPercent", currentPercent);
+                    }, 50);
+                } else {
+                    circle.classList.remove("animate-circle")
+                    updatehomeStats(true);
+                }
+            } else {
+                updatehomeStats(true);
+            }
+        }
+    </script>
+</body>
+
+</html>
