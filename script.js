@@ -2,6 +2,14 @@ const taskInput = document.getElementById("taskInput");
 const addBtn = document.getElementById("addBtn");
 const taskList = document.getElementById("taskList");
 
+const motivMessages = [
+    "مستقبلك بيتشكل دلوقتي يا بطل! 🚀",
+    "العالم مستني نجاحك، كمل! 🌍",
+    "تعب النهاردة هو راحة بكرة.. دوس! 💪",
+    "عاش يا وحش، قربت توصل! 🔥"
+];
+// خليه يختار واحدة عشوائية ويحطها في الـ .timer-quote
+
 // تعريف الـ XP في البداية
 let userXP = parseInt(localStorage.getItem("studyBuddyXP")) || 0;
 const xpCounter = document.getElementById("xp-count");
@@ -201,13 +209,17 @@ function loadEverything() {
     });
     isLoading = false;
 
-    const lastSection = localStorage.getItem("lastActivePage") || "home-section";
+    const lastSection = localStorage.getItem("lastActivePage") || "home";
     const activeBtn = document.querySelector(`.nav-btn[onclick*="${lastSection}"]`);
 
     if (activeBtn) {
-        showPage(lastSection, {currentTarget: activeBtn});
-    }
-    else {
+        showPage(lastSection, {
+            currentTarget: activeBtn
+        });
+    } else {
+        showPage('home', {
+            currentTarget: document.querySelector('.nav-btn')
+        });
         updatehomeStats();
     }
     initializeLocation();
@@ -343,6 +355,13 @@ function finishTask(taskEl) {
         checkbox.disabled = true;
         saveTasks();
         updatehomeStats();
+        confetti({
+            particleCount: 150,
+            spread: 70,
+            origin: {
+                y: 0.6
+            }
+        });
     }
 
 
