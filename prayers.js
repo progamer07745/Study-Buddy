@@ -6,7 +6,19 @@ const timeprayers = document.querySelector(".timePrayers");
 
 // تشغيل فحص الورد فور تحميل الصفحة
 document.addEventListener('DOMContentLoaded', () => {
+    // استدعاء فحص القرآن أول حاجة
     checkDailyQuran();
+
+    // فحص قفل الصلاة
+    if (localStorage.getItem('prayerLockStart')) {
+        const startTime = parseInt(localStorage.getItem('prayerLockStart'));
+        const now = Date.now();
+        if (now - startTime < 15 * 60 * 1000) {
+            activateStrictMode();
+        } else {
+            localStorage.removeItem('prayerLockStart');
+        }
+    }
 });
 
 async function fetchPrayers(lat, long) {
@@ -162,50 +174,66 @@ const remembrances = {
 };
 
 function showRemembrance(type, event) {
-    // 1. تظبيط الزراير
     const activeBtn = event.currentTarget;
+
+    // حل المشكلة الثانية: لو التبويب نشط فعلاً، اخرج من الدالة ولا تعيد التحميل
+    if (activeBtn.classList.contains('active')) return;
+
     const tabs = activeBtn.closest('.remembrance-tabs');
     tabs.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
     activeBtn.classList.add('active');
 
-    // 2. مسح الحاوية
     const container = document.getElementById('remembrance-container');
     container.innerHTML = "";
 
     const list = remembrances[type];
 
+    // استرجاع البيانات المحفوظة من المتصفح
+    const savedData = JSON.parse(localStorage.getItem('remembranceProgress') || '{}');
+
     list.forEach((duaText) => {
-        // ذكاء اصطناعي بسيط: استخراج العدد من النص لو موجود
         let count = 1;
         if (duaText.includes("(3 مرات)")) count = 3;
         if (duaText.includes("(7 مرات)")) count = 7;
 
+        // معرف فريد لكل ذكر (باستخدام النص نفسه) لتمييزه في الحفظ
+        const duaKey = duaText.substring(0, 30);
+        const currentProgress = savedData[duaKey] || 0;
+
         const card = document.createElement('div');
         card.className = 'dua-card';
-        card.dataset.required = count;
-        card.dataset.current = 0;
+        if (currentProgress >= count) card.classList.add('completed');
 
-        // هنا بنستخدم duaText مباشرة عشان مفيش undefined تاني
+        card.dataset.required = count;
+        card.dataset.current = currentProgress;
+        card.dataset.key = duaKey;
+
         card.innerHTML = `
             <p class="dua-text">${duaText}</p>
-            ${count > 1 ? `<span class="count-badge">0 / ${count}</span>` : ''}
+            ${count > 1 ? `<span class="count-badge">${currentProgress} / ${count}</span>` : ''}
         `;
 
-        // 3. منطق الضغط واللون الأخضر
         card.onclick = function () {
             let current = parseInt(this.dataset.current);
             let required = parseInt(this.dataset.required);
+            const key = this.dataset.key;
 
             if (current < required) {
                 current++;
                 this.dataset.current = current;
 
+                // تحديث الـ Badge
                 const badge = this.querySelector('.count-badge');
                 if (badge) badge.innerText = `${current} / ${required}`;
 
                 if (current === required) {
                     this.classList.add('completed');
                 }
+
+                // حفظ التقدم الجديد في localStorage
+                const dataToSave = JSON.parse(localStorage.getItem('remembranceProgress') || '{}');
+                dataToSave[key] = current;
+                localStorage.setItem('remembranceProgress', JSON.stringify(dataToSave));
             }
         };
 
@@ -218,64 +246,64 @@ let isPrayerLocked = false;
 // دالة لمراقبة مواقيت الصلاة
 function watchPrayerTimes(timings) {
     setInterval(() => {
-        if (isPrayerLocked) return; // لو مقفولة أصلاً ميعملش حاجة
+        if (localStorage.getItem('prayerLockStart')) return; // إذا كان مقفولاً بالفعل
 
         const now = new Date();
-        const currentTime = now.getHours().toString().padStart(2, '0') + ":" +
-            now.getMinutes().toString().padStart(2, '0');
-
-        // قائمة بمواعيد الصلاة (بدون الإمساك والشروق)
+        const currentTimeMinutes = now.getHours() * 60 + now.getMinutes();
         const prayerNames = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
 
         prayerNames.forEach(prayer => {
-            if (timings[prayer] === currentTime) {
+            const [h, m] = timings[prayer].split(':');
+            const prayerTimeMinutes = parseInt(h) * 60 + parseInt(m);
+
+            // القفل يعمل إذا كنا في اللحظة المحددة أو خلال 15 دقيقة بعدها
+            if (currentTimeMinutes >= prayerTimeMinutes && currentTimeMinutes < prayerTimeMinutes + 15) {
                 activateStrictMode();
             }
         });
-    }, 60000); // يفحص كل دقيقة
+    }, 10000); // فحص كل 10 ثوانٍ
 }
 
 function activateStrictMode() {
     isPrayerLocked = true;
+
+    // حفظ وقت بداية القفل لو مش موجود (عشان لو عمل ريفريش يفتكر بدأ امتى)
+    if (!localStorage.getItem('prayerLockStart')) {
+        localStorage.setItem('prayerLockStart', Date.now());
+    }
+
     const overlay = document.getElementById('prayer-overlay');
     overlay.style.display = 'flex';
 
-    // 1. إيقاف البومودورو فوراً (بافتراض اسم الدالة عندك pauseTimer)
-    if (typeof pauseTimer === "function") {
-        pauseTimer();
-    }
+    if (typeof pauseTimer === "function") pauseTimer();
 
-    // 2. تشغيل عداد الـ 15 دقيقة
-    let timeLeft = 15 * 60; // 15 دقيقة بالثواني
-    const timerDisplay = document.getElementById('return-timer');
-
-    const countdown = setInterval(() => {
-        const minutes = Math.floor(timeLeft / 60);
-        const seconds = timeLeft % 60;
-        timerDisplay.innerText = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-
-        if (timeLeft <= 0) {
-            clearInterval(countdown);
-            deactivateStrictMode();
-        }
-        timeLeft--;
-    }, 1000);
+    startLockCountdown();
 }
 
 function deactivateStrictMode() {
     isPrayerLocked = false;
+    localStorage.removeItem('prayerLockStart'); // مسح القيمة لضمان عدم القفل عند الريفريش
     document.getElementById('prayer-overlay').style.display = 'none';
-    alert("تقبل الله منك! يمكنك العودة للمذاكرة الآن.");
+
+    Swal.fire({
+        icon: 'success',
+        title: 'تقبل الله طاعتك',
+        text: 'يمكنك الآن العودة لإكمال مهامك بنشاط.',
+        confirmButtonColor: '#2ecc71'
+    });
 }
 
 // دالة فحص الورد اليومي عند فتح الموقع
 function checkDailyQuran() {
     const lastDate = localStorage.getItem('lastOpenDate');
-    const today = new Date().toLocaleDateString('en-GB'); // تنسيق DD/MM/YYYY
+    const today = new Date().toLocaleDateString('en-GB');
 
     if (lastDate !== today) {
-        // لو أول مرة يفتح الموقع النهاردة، نظهر شاشة الورد
+        // إذا كان يوماً جديداً:
         document.getElementById('quran-overlay').style.display = 'flex';
+
+        // تصفير الأذكار لليوم الجديد
+        localStorage.removeItem('remembranceProgress');
     }
 }
 
@@ -308,4 +336,36 @@ function verifyQuran() {
         timer: 3000,
         showConfirmButton: false
     });
+}
+
+function startLockCountdown() {
+    const timerDisplay = document.getElementById('return-timer');
+
+    // تنظيف أي عداد قديم لتجنب تضاعف السرعة
+    if (window.prayerInterval) clearInterval(window.prayerInterval);
+
+    window.prayerInterval = setInterval(() => {
+        const startTime = parseInt(localStorage.getItem('prayerLockStart'));
+        if (!startTime) {
+            clearInterval(window.prayerInterval);
+            return;
+        }
+
+        const now = Date.now();
+        const elapsedSeconds = Math.floor((now - startTime) / 1000);
+        const totalLockTime = 15 * 60; // 15 دقيقة
+        let timeLeft = totalLockTime - elapsedSeconds;
+
+        if (timeLeft <= 0) {
+            clearInterval(window.prayerInterval);
+            localStorage.removeItem('prayerLockStart');
+            deactivateStrictMode();
+        } else {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            if (timerDisplay) {
+                timerDisplay.innerText = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+            }
+        }
+    }, 1000);
 }
