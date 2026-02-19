@@ -1052,6 +1052,112 @@ table th {
 }
 
 
+/* الحاوية الكبيرة (الخلفية) */
+.strict-overlay {
+    display: none;
+    /* سيتم تغييره بالـ JS لـ flex */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 25, 47, 0.98);
+    z-index: 10000;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    /* مساحة أمان للموبايل */
+    box-sizing: border-box;
+}
+
+/* الكارت الأبيض/الداكن */
+.quran-card {
+    background: #1a0c4b;
+    padding: clamp(20px, 5vw, 40px);
+    /* بادينج مرن */
+    border-radius: 25px;
+    border: 2px solid #6366f1;
+    max-width: 450px;
+    width: 100%;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+    text-align: center;
+    animation: slideUp 0.5s ease;
+}
+
+.quran-card h2 {
+    color: #6366f1;
+    font-size: clamp(1.4rem, 6vw, 1.8rem);
+    margin-bottom: 15px;
+}
+
+.quran-card .quote {
+    color: #f1faee;
+    font-size: clamp(0.9rem, 4vw, 1.1rem);
+    line-height: 1.6;
+    margin-bottom: 25px;
+}
+
+/* التعديل المهم للمدخل (Input) */
+#quranConfirm {
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    border: 1px solid #334155;
+    background: #0f172a;
+    color: white;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 1rem;
+    box-sizing: border-box;
+    /* يمنع الـ Input من الخروج عن الكارت */
+    outline: none;
+    transition: 0.3s;
+}
+
+#quranConfirm:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 10px rgba(99, 102, 241, 0.3);
+}
+
+/* الزرار */
+.quran-card button {
+    background: #6366f1;
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    cursor: pointer;
+    width: 100%;
+    transition: transform 0.2s, background 0.3s;
+}
+
+.quran-card button:active {
+    transform: scale(0.95);
+}
+
+.footer-note {
+    font-size: 0.8rem;
+    color: #94a3b8;
+    margin-top: 15px;
+}
+
+/* أنيميشن بسيط */
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
 
 
 

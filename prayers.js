@@ -96,6 +96,12 @@ async function fetchPrayers(lat, long) {
         <div class="current-date" dir="rtl"> تاريخ اليوم : "${data.data.date.hijri.date}"</div>
         <div id="next-prayer-status" dir="rtl" style="text-align:center; margin-bottom:15px; font-weight:bold;">جاري حساب الصلاة القادمة ...</div>
         <table class="prayers-list" dir="rtl">
+            <thead>
+                <tr>
+                    <th>الأذان</th>
+                    <th>الوقت</th>
+                </tr>
+            </thead>
             <tbody>
                 <tr><td>الفجر</td><td dir="ltr">${displayTimes.Fajr}</td></tr>
                 <tr><td>الظهر</td><td dir="ltr">${displayTimes.Dhuhr}</td></tr>

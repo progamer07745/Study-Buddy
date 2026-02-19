@@ -22,7 +22,7 @@
             <nav class="nav-menu">
                 <button class="nav-btn active" onclick="showPage('home', event)"><i class="fas fa-home"></i></button>
                 <button class="nav-btn" onclick="showPage('planner', event)"><i class="fas fa-calendar"></i></button>
-                <button class="nav-btn" onclick="showPage('prayers',event)"><i class="fas fa-pray"></i></button>
+                <button class="nav-btn" onclick="showPage('prayers',event)"><i class="fas fa-ئئ"></i></button>
                 <button class="nav-btn" onclick="showPage('leaderboard')"><i class="fas fa-trophy"></i></button>
                 <div class="xp-status"><span>⭐</span><span id="xp-count">0</span></div>
             </nav>
@@ -123,12 +123,7 @@
             <section id="prayers" class="page-section" style="display:none">
                 <h2>Prayer Times</h2>
                 <div id="prayer-section" style="display: none">Loading...</div>
-                <div id="prayerlist">
-                    <thead>
-                        <th>الاذان</th>
-                        <th>الوقت</th>
-                    </thead>
-                </div>
+                <div id="prayerlist"></div>
                 <div class="elSalah-quotes">
                     <p dir="rtl">
                         <q>أرِحنا بها يا بلال ❤️</q>
@@ -161,7 +156,7 @@
     <div id="prayer-overlay"
         style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(26, 12, 75, 0.98); z-index:9999; flex-direction:column; align-items:center; justify-content:center; color:white; text-align:center; font-family: 'Cairo', sans-serif;">
         <h2 style="margin-bottom: 20px;">حان وقت الصلاة الآن 🕌</h2>
-        <p style="font-size: 1.2rem;">قال صلى الله عليه وسلم: "أول ما يحاسب به العبد يوم القيامة الصلاة"</p>
+        <p style="font-size: 1.2rem;" dir="rtl">قال صلى الله عليه وسلم: "أول ما يحاسب به العبد يوم القيامة الصلاة"</p>
 
         <div style="font-size: 3rem; font-weight: bold; margin: 20px 0; color: #f1faee;" id="return-timer">15:00</div>
 
@@ -170,25 +165,21 @@
         </div>
     </div>
 
-    <div id="quran-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(10, 25, 47, 0.98); z-index:10000; flex-direction:column; align-items:center; justify-content:center; color:white; text-align:center; font-family: 'Cairo', sans-serif; padding: 20px;">
-    <div style="background: #1a0c4b; padding: 30px; border-radius: 20px; border: 2px solid #6366f1; max-width: 500px; width: 90%; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
-        <h2 style="color: #6366f1; margin-bottom: 15px;">ورد القرآن الكريم 📖</h2>
-        <p style="font-size: 1.1rem; line-height: 1.6; margin-bottom: 20px;">
-            "نورٌ ليومك وبركةٌ في وقتك.." <br>
-            قبل أن تبدأ رحلة العلم، هل قرأت وردك اليومي؟
-        </p>
-        
-        <input type="text" id="quranConfirm" placeholder="ماذا قرأت اليوم؟ (مثلاً: سورة الكهف)" 
-            style="width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #457b9d; background: #0f172a; color: white; margin-bottom: 20px; text-align: center; font-family: 'Cairo';">
-        
-        <button onclick="verifyQuran()" 
-            style="background: #6366f1; color: white; border: none; padding: 12px 30px; border-radius: 10px; font-weight: bold; cursor: pointer; width: 100%; transition: 0.3s;">
-            تمت القراءة بحمد الله
-        </button>
-        
-        <p style="font-size: 0.8rem; color: #94a3b8; margin-top: 15px;">سيتم فتح الموقع فور إدخال وردك</p>
+    <div id="quran-overlay" class="strict-overlay">
+        <div class="quran-card">
+            <h2>ورد القرآن الكريم 📖</h2>
+            <p class="quote">
+                "نورٌ ليومك وبركةٌ في وقتك.." <br>
+                <span>قبل أن تبدأ رحلة العلم، هل قرأت وردك اليومي؟</span>
+            </p>
+
+            <input type="text" id="quranConfirm" placeholder="ماذا قرأت اليوم؟ (مثلاً: سورة الكهف)">
+
+            <button onclick="verifyQuran()">تمت القراءة بحمد الله</button>
+
+            <p class="footer-note">سيتم فتح الموقع فور إدخال وردك</p>
+        </div>
     </div>
-</div>
 
     <script>
         function showPage(pageId, event) {
