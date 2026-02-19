@@ -40,6 +40,7 @@ main {
     width: 80px;
     background: var(--card);
     position: fixed;
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -326,6 +327,7 @@ circle.progress {
     border-radius: 20px;
     font-weight: 600;
     margin-left: 36px;
+    font-size: 16px;
     /* مسافة بينه وبين النص */
 }
 
@@ -461,7 +463,7 @@ circle.progress {
     display: inline-block;
     width: 70px;
     text-align: center;
-    font-size: 12px;
+    font-size: 16px;
     padding: 2px 8px;
     border-radius: 6px;
     margin-right: 15px;
@@ -609,19 +611,6 @@ circle.progress {
     pointer-events: none;
 }
 
-/* 
-    ==============================
-            Responsiveness
-    =============================
-*/
-@media (max-width: 600px) {
-    .controlsButtons button {
-        width: 42px;
-        height: 42px;
-        font-size: 18px;
-        /* تكبير الأيقونة شوية لسهولة اللمس */
-    }
-}
 
 /* The prayers section */
 
@@ -671,9 +660,106 @@ table th {
     color: var(--primary);
 }
 
+.elSalah-quotes p {
+    font-size: 1.4rem;
+    color: var(--primary);
+    font-style: italic;
+    margin-top: 15px;
+}
+
+/* حاوية مواقيت الصلاة */
+#prayerlist {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    color: #f1faee;
+    max-width: 500px;
+    margin: 20px auto;
+}
+
+/* التاريخ الهجري */
+.current-date {
+    font-size: 1.2rem;
+    color: #a8dadc;
+    margin-bottom: 20px;
+    text-align: center;
+    opacity: 0.8;
+}
+
+/* العداد التنازلي - البطل بتاعنا */
+#next-prayer-status {
+    background: linear-gradient(135deg, #1d3557 0%, #457b9d 100%);
+    padding: 15px;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+    transition: all 0.5s ease;
+    border-left: 5px solid #a8dadc;
+}
+
+/* الجدول */
+.prayers-list {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+    /* مسافة بين الصفوف */
+    margin-top: 15px;
+}
+
+.prayers-list tr {
+    background: rgba(255, 255, 255, 0.03);
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.prayers-list tr:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: scale(1.02);
+}
+
+.prayers-list td {
+    padding: 15px;
+    font-size: 1.1rem;
+}
+
+/* أول عمود (اسم الصلاة) */
+.prayers-list td:first-child {
+    border-radius: 12px 0 0 12px;
+    font-weight: 600;
+}
+
+/* ثاني عمود (الوقت) */
+.prayers-list td:last-child {
+    border-radius: 0 12px 12px 0;
+    text-align: left;
+    color: #a8dadc;
+    font-family: 'JetBrains Mono', monospace;
+    /* خط برمجي شيك */
+}
+
+/* المقولة (الـ Quote) */
 .elSalah-quotes {
+    margin-top: 30px;
+    text-align: center;
+    font-style: italic;
+    color: #f1faee;
+    opacity: 0.9;
+    position: relative;
+    padding: 10px;
     font-size: 20px;
-    font-weight: 900;
+}
+
+/* Scrollbar شيك لو الصفحة طولت */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #457b9d;
+    border-radius: 10px;
 }
 
 .timer-overlay {
@@ -773,6 +859,208 @@ table th {
     color: #94a3b8;
     /* لون هادي يليق مع الثيم */
 }
+
+/* حاوية الأزرار */
+.remembrance-tabs {
+    display: flex;
+    justify-content: center;
+    /* توسيط الأزرار */
+    gap: 12px;
+    /* مسافة بين كل زرار والتاني */
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    /* عشان لو الشاشة صغيرة ينزلوا تحت بعض بشكل شيك */
+}
+
+/* تصميم الزرار الجديد */
+.tab-btn {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #f1faee;
+    padding: 12px 20px;
+    /* كبرنا المساحة الداخلية */
+    border-radius: 12px;
+    /* زوايا أنعم */
+    cursor: pointer;
+    font-size: 1rem;
+    /* كبرنا الخط */
+    font-weight: 500;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    /* حركة مرنة */
+    flex: 1;
+    /* الأزرار تاخد مساحة متساوية */
+    min-width: 120px;
+    /* أقل عرض للزرار عشان ميبقاش رفيع */
+}
+
+/* تأثير عند الوقوف بالماوس */
+.tab-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-3px);
+    /* الزرار يترفع لفوق سنة */
+    border-color: #a8dadc;
+}
+
+/* شكل الزرار النشط (اللي مختارينه) */
+.tab-btn.active {
+    background: #457b9d;
+    color: #ffffff;
+    border-color: #a8dadc;
+    box-shadow: 0 4px 15px rgba(69, 123, 157, 0.4);
+    font-weight: bold;
+}
+
+/* حاوية الكروت (الشبكة) */
+#remembrance-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+    direction: rtl;
+    /* لضمان التنسيق العربي */
+}
+
+/* ستايل الكارت الواحد */
+.dua-card {
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 20px;
+    text-align: center;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100px;
+    user-select: none;
+    /* عشان الكتابة متمسحش مع كثرة الضغط */
+}
+
+/* تأثير عند الوقوف أو الضغط */
+.dua-card:hover {
+    background: rgba(255, 255, 255, 0.12);
+    transform: translateY(-4px);
+    border-color: #a8dadc;
+}
+
+.dua-card:active {
+    transform: scale(0.96);
+    /* تأثير "الضغط" الحقيقي */
+}
+
+/* النص داخل الكارت */
+.dua-text {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: #f1faee;
+    margin: 0;
+    margin-bottom: 10px;
+}
+
+/* العداد الصغير (Badge) */
+.count-badge {
+    position: absolute;
+    bottom: 8px;
+    left: 12px;
+    background: #457b9d;
+    color: white;
+    font-size: 0.75rem;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* الحالة عند اكتمال الذكر (اللون الأخضر) */
+.dua-card.completed {
+    background: rgba(46, 204, 113, 0.15) !important;
+    border: 2px solid #2ecc71 !important;
+    cursor: default;
+}
+
+.dua-card.completed .dua-text {
+    color: #2ecc71;
+    opacity: 0.9;
+}
+
+.dua-card.completed .count-badge {
+    background: #2ecc71;
+    box-shadow: 0 0 10px rgba(46, 204, 113, 0.4);
+}
+
+/* أنيميشن بسيط عند ظهور الكروت */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dua-card {
+    animation: fadeInUp 0.4s ease forwards;
+}
+
+
+/* شاشة المنع الصارمة */
+#prayer-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(29, 53, 87, 0.98);
+    /* لون داكن جداً */
+    display: none;
+    /* مخفية تلقائياً */
+    z-index: 10000;
+    /* فوق كل شيء */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    backdrop-filter: blur(15px);
+}
+
+.overlay-content h1 {
+    color: #a8dadc;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.overlay-content p {
+    color: #f1faee;
+    font-size: 1.2rem;
+    max-width: 80%;
+    margin: 0 auto 30px;
+}
+
+/* عداد تنازلي للعودة */
+#return-timer {
+    font-size: 2rem;
+    color: #e63946;
+    font-weight: bold;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px 30px;
+    border-radius: 50px;
+}
+
+
+
+
+
+
+
+
+
+
+
 
 /* --- Media Queries: Responsive Design --- */
 

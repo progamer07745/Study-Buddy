@@ -1,6 +1,7 @@
 const taskInput = document.getElementById("taskInput");
 const addBtn = document.getElementById("addBtn");
 const taskList = document.getElementById("taskList");
+const successAudio = new Audio('https://assets.mixkit.co/active_storage/sfx/2013/2013-preview.mp3');
 
 const motivMessages = [
     "مستقبلك بيتشكل دلوقتي يا بطل! 🚀",
@@ -8,9 +9,7 @@ const motivMessages = [
     "تعب النهاردة هو راحة بكرة.. دوس! 💪",
     "عاش يا وحش، قربت توصل! 🔥"
 ];
-// خليه يختار واحدة عشوائية ويحطها في الـ .timer-quote
 
-// تعريف الـ XP في البداية
 let userXP = parseInt(localStorage.getItem("studyBuddyXP")) || 0;
 const xpCounter = document.getElementById("xp-count");
 if (xpCounter) xpCounter.innerText = userXP;
@@ -259,6 +258,17 @@ function updatehomeStats(skipCircle = false) {
         const hour = new Date().getHours();
         greeting.innerText = hour < 12 ? "صباح الخير يا بطل! ☀️" : (hour < 18 ? "مساء النشاط يا نجم! ⚡" : "مساء الهمة يا وحش! 🌙");
     }
+
+    const rankEl = document.getElementById("user-rank");
+    if (rankEl) {
+        let rank = "";
+        if (userXP < 100) rank = "مكافح مبتدئ 🌱";
+        else if (userXP < 500) rank = "وحش المذاكرة 🦁";
+        else if (userXP < 1500) rank = "صانع المستحيل ⚡";
+        else rank = "أسطورة زمانك 👑";
+
+        rankEl.innerText = rank;
+    }
 }
 
 let timerInterval;
@@ -283,10 +293,13 @@ function startPomodoro(taskName, taskElement) {
     const taskTitle = document.getElementById("timer-task-name");
     const startBtn = document.getElementById("pause-resume-btn");
     const selectorArea = document.getElementById("time-selector-area");
-
+    const timerQuote = document.querySelector(".timer-quote");
     taskTitle.innerText = `${taskName}`;
     overlay.style.display = "flex";
     selectorArea.style.display = "block";
+
+    const randomMsg = motivMessages[Math.floor(Math.random() * motivMessages.length)];
+    timerQuote.innerText = randomMsg;
 
     clearInterval(timerInterval);
     timeLeft = timeSlider.value * 60;
@@ -329,6 +342,7 @@ function finishTask(taskEl) {
     const timeSlider = document.getElementById("time-slider");
     overlay.style.display = "none";
 
+
     const checkbox = taskEl.querySelector(".isCompleted");
     if (!checkbox.checked) {
         const minuteSpent = parseInt(timeSlider.value);
@@ -355,6 +369,9 @@ function finishTask(taskEl) {
         checkbox.disabled = true;
         saveTasks();
         updatehomeStats();
+
+        successAudio.play();
+
         confetti({
             particleCount: 150,
             spread: 70,
