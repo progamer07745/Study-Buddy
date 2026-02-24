@@ -4,12 +4,9 @@ const currentDate = document.querySelector(".current-date");
 
 const timeprayers = document.querySelector(".timePrayers");
 
-// تشغيل فحص الورد فور تحميل الصفحة
 document.addEventListener('DOMContentLoaded', () => {
-    // استدعاء فحص القرآن أول حاجة
     checkDailyQuran();
 
-    // فحص قفل الصلاة
     if (localStorage.getItem('prayerLockStart')) {
         const startTime = parseInt(localStorage.getItem('prayerLockStart'));
         const now = Date.now();
@@ -25,7 +22,6 @@ async function fetchPrayers(lat, long) {
     const response = await fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${long}&method=5`);
     const data = await response.json();
 
-    // 1. الاحتفاظ بالوقت الأصلي (نظام 24 ساعة) للمراقب الصارم
     const rawTimes = {
         ...data.data.timings
     };
@@ -45,7 +41,6 @@ async function fetchPrayers(lat, long) {
     let targetTime = null;
     const now = new Date();
 
-    // 2. حساب الصلاة القادمة (باستخدام نظام 24 ساعة لضمان الدقة)
     for (let p of prayers) {
         let [h, m] = time[p].split(":");
         let pDate = new Date();
@@ -65,7 +60,6 @@ async function fetchPrayers(lat, long) {
         targetTime.setHours(h, m, 0);
     }
 
-    // 3. تحديث العداد التنازلي
     setInterval(() => {
         let diff = targetTime - new Date();
         let hours = Math.floor(diff / (1000 * 60 * 60));
@@ -82,7 +76,6 @@ async function fetchPrayers(lat, long) {
         }
     }, 1000);
 
-    // 4. تحويل الوقت للعرض فقط في الجدول (نظام 12 ساعة)
     const displayTimes = {};
     for (let p in time) {
         let [h, m] = time[p].split(":");
@@ -124,7 +117,6 @@ function initializeLocation() {
                 console.log("Location accessed");
             },
             (error) => {
-                // لو رفض أو حصل مشكلة، نظهر التنبيه
                 Swal.fire({
                     title: 'تنبيه!',
                     text: 'بما أنه لم يتم السماح بالوصول للموقع، سنعرض لك مواقيت الصلاة في القاهرة.',
@@ -137,7 +129,7 @@ function initializeLocation() {
                 fetchPrayers(30.0444, 31.2357); // Cairo
             }, {
                 timeout: 10000
-            } // مهلة 10 ثواني عشان الموبايل ميهنجش
+            }
         );
     } else {
         alert("متصفحك لا يدعم خاصية تحديد الموقع.");
@@ -182,7 +174,6 @@ const remembrances = {
 function showRemembrance(type, event) {
     const activeBtn = event.currentTarget;
 
-    // حل المشكلة الثانية: لو التبويب نشط فعلاً، اخرج من الدالة ولا تعيد التحميل
     if (activeBtn.classList.contains('active')) return;
 
     const tabs = activeBtn.closest('.remembrance-tabs');
@@ -194,7 +185,6 @@ function showRemembrance(type, event) {
 
     const list = remembrances[type];
 
-    // استرجاع البيانات المحفوظة من المتصفح
     const savedData = JSON.parse(localStorage.getItem('remembranceProgress') || '{}');
 
     list.forEach((duaText) => {
@@ -202,7 +192,6 @@ function showRemembrance(type, event) {
         if (duaText.includes("(3 مرات)")) count = 3;
         if (duaText.includes("(7 مرات)")) count = 7;
 
-        // معرف فريد لكل ذكر (باستخدام النص نفسه) لتمييزه في الحفظ
         const duaKey = duaText.substring(0, 30);
         const currentProgress = savedData[duaKey] || 0;
 
@@ -228,7 +217,6 @@ function showRemembrance(type, event) {
                 current++;
                 this.dataset.current = current;
 
-                // تحديث الـ Badge
                 const badge = this.querySelector('.count-badge');
                 if (badge) badge.innerText = `${current} / ${required}`;
 
@@ -236,7 +224,6 @@ function showRemembrance(type, event) {
                     this.classList.add('completed');
                 }
 
-                // حفظ التقدم الجديد في localStorage
                 const dataToSave = JSON.parse(localStorage.getItem('remembranceProgress') || '{}');
                 dataToSave[key] = current;
                 localStorage.setItem('remembranceProgress', JSON.stringify(dataToSave));
@@ -249,11 +236,9 @@ function showRemembrance(type, event) {
 
 let isPrayerLocked = false;
 
-// دالة لمراقبة مواقيت الصلاة
 function watchPrayerTimes(timings) {
     setInterval(() => {
-        if (localStorage.getItem('prayerLockStart')) return; // إذا كان مقفولاً بالفعل
-
+        if (localStorage.getItem('prayerLockStart')) return;
         const now = new Date();
         const currentTimeMinutes = now.getHours() * 60 + now.getMinutes();
         const prayerNames = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
@@ -262,18 +247,16 @@ function watchPrayerTimes(timings) {
             const [h, m] = timings[prayer].split(':');
             const prayerTimeMinutes = parseInt(h) * 60 + parseInt(m);
 
-            // القفل يعمل إذا كنا في اللحظة المحددة أو خلال 15 دقيقة بعدها
             if (currentTimeMinutes >= prayerTimeMinutes && currentTimeMinutes < prayerTimeMinutes + 15) {
                 activateStrictMode();
             }
         });
-    }, 10000); // فحص كل 10 ثوانٍ
+    }, 10000); 
 }
 
 function activateStrictMode() {
     isPrayerLocked = true;
 
-    // حفظ وقت بداية القفل لو مش موجود (عشان لو عمل ريفريش يفتكر بدأ امتى)
     if (!localStorage.getItem('prayerLockStart')) {
         localStorage.setItem('prayerLockStart', Date.now());
     }
@@ -288,7 +271,7 @@ function activateStrictMode() {
 
 function deactivateStrictMode() {
     isPrayerLocked = false;
-    localStorage.removeItem('prayerLockStart'); // مسح القيمة لضمان عدم القفل عند الريفريش
+    localStorage.removeItem('prayerLockStart');
     document.getElementById('prayer-overlay').style.display = 'none';
 
     Swal.fire({
@@ -299,25 +282,20 @@ function deactivateStrictMode() {
     });
 }
 
-// دالة فحص الورد اليومي عند فتح الموقع
 function checkDailyQuran() {
     const lastDate = localStorage.getItem('lastOpenDate');
     const today = new Date().toLocaleDateString('en-GB');
 
     if (lastDate !== today) {
-        // إذا كان يوماً جديداً:
         document.getElementById('quran-overlay').style.display = 'flex';
 
-        // تصفير الأذكار لليوم الجديد
         localStorage.removeItem('remembranceProgress');
     }
 }
 
-// دالة التأكد من القراءة (التحقق الصارم)
 function verifyQuran() {
     const input = document.getElementById('quranConfirm').value.trim();
 
-    // شرط صارم: لازم يكتب أكتر من 4 حروف (عشان يكتب اسم سورة حقيقي)
     if (input.length < 4) {
         Swal.fire({
             icon: 'warning',
@@ -328,10 +306,9 @@ function verifyQuran() {
         return;
     }
 
-    // لو تمام، نحفظ التاريخ عشان الشاشة متظهرش تاني النهاردة
     const today = new Date().toLocaleDateString('en-GB');
     localStorage.setItem('lastOpenDate', today);
-    localStorage.setItem('lastReadContent', input); // بنسجل هو قرأ إيه للتحفيز
+    localStorage.setItem('lastReadContent', input); 
 
     document.getElementById('quran-overlay').style.display = 'none';
 
@@ -347,7 +324,6 @@ function verifyQuran() {
 function startLockCountdown() {
     const timerDisplay = document.getElementById('return-timer');
 
-    // تنظيف أي عداد قديم لتجنب تضاعف السرعة
     if (window.prayerInterval) clearInterval(window.prayerInterval);
 
     window.prayerInterval = setInterval(() => {
@@ -359,7 +335,7 @@ function startLockCountdown() {
 
         const now = Date.now();
         const elapsedSeconds = Math.floor((now - startTime) / 1000);
-        const totalLockTime = 15 * 60; // 15 دقيقة
+        const totalLockTime = 15 * 60;
         let timeLeft = totalLockTime - elapsedSeconds;
 
         if (timeLeft <= 0) {

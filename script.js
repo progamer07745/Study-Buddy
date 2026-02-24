@@ -19,21 +19,21 @@ let isLoading = false;
 
 const Toast = Swal.mixin({
     toast: true,
-    position: 'bottom-center', // مريح جداً للعين تحت
+    position: 'bottom-center',
     showConfirmButton: false,
     timer: 1500,
-    background: 'rgba(30, 41, 59, 0.95)', // شفافية Glassmorphism
+    background: 'rgba(30, 41, 59, 0.95)',
     color: '#5aa4ed',
     showClass: {
-        popup: 'animate__animated animate__zoomIn animate__faster' // دخول زوم ناعم
+        popup: 'animate__animated animate__zoomIn animate__faster'
     },
     hideClass: {
-        popup: 'animate__animated animate__zoomOut animate__faster' // خروج زوم ناعم
+        popup: 'animate__animated animate__zoomOut animate__faster'
     },
     didOpen: (toast) => {
         toast.onmouseenter = Swal.stopTimer;
         toast.onmouseleave = Swal.resumeTimer;
-        toast.style.direction = 'rtl'; // السطر ده هيخلي الكلام يبدأ من اليمين
+        toast.style.direction = 'rtl';
     }
 });
 
@@ -55,7 +55,6 @@ function createTaskElement(taskText, categoryValue, categoryText, PriorityValue,
         </div>
     `;
 
-    // تفعيل زرار التايمر (الربط السحري)
     li.querySelector(".start-timer-btn").onclick = (e) => {
         e.preventDefault();
         startPomodoro(taskText, li);
@@ -154,7 +153,6 @@ function createTaskElement(taskText, categoryValue, categoryText, PriorityValue,
     return li;
 }
 
-// تشغيل زر الإضافة الأساسي
 addBtn.onclick = () => {
     const taskText = taskInput.value.trim();
     if (taskText !== "") {
@@ -227,20 +225,20 @@ function loadEverything() {
 window.addEventListener("DOMContentLoaded", loadEverything);
 
 function updatehomeStats(skipCircle = false) {
-    // 1. هات البيانات الطازة
+    Z
     const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
     const userXP = parseInt(localStorage.getItem("studyBuddyXP")) || 0;
 
-    // 2. تحديث الـ XP (دي شغالة في كل مكان)
+    Z
     const xpElements = document.querySelectorAll("#xp-count, #current-xp-home");
     xpElements.forEach(el => el.innerText = userXP);
 
-    // 3. حسابات النسبة
+    Z
     const total = tasks.length;
     const completed = tasks.filter(t => String(t.checked) === "true").length;
     const percent = total > 0 ? Math.round((completed / total) * 100) : 0;
 
-    // 4. تحديث عناصر الهوم "فقط" لو موجودة قدامنا دلوقتي
+    Z
     const circle = document.getElementById("progress-circle");
     const percentText = document.getElementById("progress-text") || document.getElementById("progress-percent");
     const tasksDoneEl = document.getElementById("tasks-done");
@@ -252,7 +250,7 @@ function updatehomeStats(skipCircle = false) {
     if (percentText) percentText.innerText = percent + "%";
     if (tasksDoneEl) tasksDoneEl.innerText = completed;
 
-    // 5. الترحيب
+    Z
     const greeting = document.getElementById("greeting");
     if (greeting) {
         const hour = new Date().getHours();
@@ -309,7 +307,6 @@ function startPomodoro(taskName, taskElement) {
 
     startBtn.onclick = function () {
         if (!isRunning) {
-            // أول ما يبدأ، نخفي الـ Slider عشان مغيرش الوقت وهو شغال
             selectorArea.style.display = "none";
             this.innerText = "Pause";
             isRunning = true;
