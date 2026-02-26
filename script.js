@@ -225,20 +225,20 @@ function loadEverything() {
 window.addEventListener("DOMContentLoaded", loadEverything);
 
 function updatehomeStats(skipCircle = false) {
-    Z
+
     const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
     const userXP = parseInt(localStorage.getItem("studyBuddyXP")) || 0;
 
-    Z
+
     const xpElements = document.querySelectorAll("#xp-count, #current-xp-home");
     xpElements.forEach(el => el.innerText = userXP);
 
-    Z
+
     const total = tasks.length;
     const completed = tasks.filter(t => String(t.checked) === "true").length;
     const percent = total > 0 ? Math.round((completed / total) * 100) : 0;
 
-    Z
+
     const circle = document.getElementById("progress-circle");
     const percentText = document.getElementById("progress-text") || document.getElementById("progress-percent");
     const tasksDoneEl = document.getElementById("tasks-done");
@@ -250,7 +250,7 @@ function updatehomeStats(skipCircle = false) {
     if (percentText) percentText.innerText = percent + "%";
     if (tasksDoneEl) tasksDoneEl.innerText = completed;
 
-    Z
+
     const greeting = document.getElementById("greeting");
     if (greeting) {
         const hour = new Date().getHours();
