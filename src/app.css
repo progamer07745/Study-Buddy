@@ -1,0 +1,147 @@
+:root { color-scheme: dark; }
+* { user-select: auto; }
+button, select { font: inherit; }
+button { touch-action: manipulation; }
+.page-section { display: block; width: 100%; max-width: 1040px; margin: 0 auto; text-align: right; }
+.page-section[hidden] { display: none !important; }
+.strict-overlay { display: flex !important; }
+.top-bar { height: 72px; padding: 12px 40px; box-sizing: border-box; align-items: center; position: relative; z-index: 10; }
+.app-container { height: calc(100svh - 72px); min-height: 500px; }
+.side-menu { top: 0; bottom: 0; height: 100svh; }
+.nav-btn { display: flex; align-items: center; justify-content: center; gap: 10px; min-width: 44px; min-height: 44px; }
+.nav-label { display: none; }
+.content-area { padding: clamp(20px, 4vw, 48px); }
+.signed-in-user, .guest-actions { display: flex; gap: 12px; align-items: center; }
+.signed-in-user { background: var(--card); border: 1px solid #334155; border-radius: 30px; padding: 7px 12px 7px 16px; }
+.header-xp { color: #fbbf24; padding-inline-start: 8px; }
+.welcome-header .user-rank { display: inline-flex; align-items: center; justify-content: center; width: auto; height: auto; padding: 6px 14px; border: 1px solid rgba(129, 140, 248, .4); border-radius: 999px; background: rgba(99, 102, 241, .12); color: #c7d2fe; font-weight: 700; line-height: 1.4; white-space: nowrap; margin: 8px 0 18px; }
+.home-page { max-width: 880px; }
+.hero-brand { display: flex; align-items: center; justify-content: flex-start; gap: 16px; text-align: right; }
+.hero-brand h1, .page-heading h1, .leaderboard-page h1 { margin: 0; font-size: clamp(1.8rem, 4vw, 2.6rem); }
+.hero-brand p { margin: 0; color: #94a3b8; direction: ltr; text-align: right; font-size: .9rem; }
+.brand-mark { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 18px; background: linear-gradient(135deg, #818cf8, #4f46e5); color: white; font-weight: 800; font-size: 1.2rem; box-shadow: 0 10px 28px #6366f144; flex-shrink: 0; }
+.welcome-header { margin-top: 38px; text-align: right; }
+.welcome-header h2 { font-size: clamp(1.4rem, 3vw, 2rem); margin: 5px 0; }
+.eyebrow { color: #a5b4fc; font-size: .85rem; font-weight: 700; letter-spacing: .04em; margin: 0 0 8px; }
+.subtitle, .page-heading > p { color: #94a3b8; }
+.stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.stat-card { text-align: right; }
+.progress-text span { font-size: 2rem; font-weight: 800; }
+.progress-text p { margin: 0; color: #94a3b8; }
+.quote-container { text-align: center; border-left: 0; border-right: 5px solid var(--primary); }
+.home-hint { text-align: center; color: #94a3b8; }
+.page-heading { display: flex; align-items: end; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin: 6px 0 26px; }
+.page-heading > p { margin: 0 0 5px; }
+.planner-page { max-width: 1050px; }
+.task-form { flex-wrap: wrap; align-items: stretch; }
+.task-form select, .focus-select select { min-height: 46px; background: var(--card); border: 1px solid #334155; color: var(--text); border-radius: 10px; padding: 9px 12px; }
+.focus-select { display: flex; align-items: center; gap: 8px; color: #cbd5e1; font-size: .85rem; white-space: nowrap; }
+#taskInput { min-height: 46px; min-width: 180px; font: inherit; }
+#addBtn { min-width: 50px; min-height: 46px; background: var(--primary); color: white; border: 0; border-radius: 10px; cursor: pointer; }
+#addBtn:disabled, .auth-submit-btn:disabled { opacity: .65; cursor: wait; }
+.cancel-edit { border: 1px solid #475569; background: transparent; color: white; border-radius: 10px; padding: 0 15px; }
+.inline-notice { color: #a5b4fc; text-align: center; margin: 12px 0; }
+.task-list { list-style: none; padding: 0; margin: 20px 0; display: grid; gap: 12px; }
+.task-item { flex-direction: row; text-align: right; align-items: center; justify-content: space-between; gap: 16px; }
+.task-body { min-width: 0; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 0; }
+.task-text { overflow-wrap: anywhere; max-width: 42ch; }
+.focus-time { color: #94a3b8; font-size: .78rem; white-space: nowrap; }
+.task-item.is-done { opacity: .7; }
+.completed-label { color: #34d399; display: inline-flex; gap: 6px; align-items: center; font-size: .88rem; }
+.controlsButtons { display: flex; gap: 8px; flex-shrink: 0; }
+.controlsButtons button { display: grid; place-items: center; width: 38px; height: 38px; border: 0; border-radius: 10px; cursor: pointer; }
+.guest-card, .empty-state { text-align: center; padding: 38px 20px; background: var(--card); border: 1px solid #334155; border-radius: 20px; color: #cbd5e1; }
+.guest-card > i, .empty-state > span { font-size: 2.3rem; color: #a5b4fc; }
+.guest-sign-in { width: auto; padding: 12px 24px; }
+.app-loading { min-height: 100svh; display: grid; place-content: center; justify-items: center; gap: 12px; }
+.app-loading p { color: #cbd5e1; }
+.text-button { color: #a5b4fc; background: none; border: 0; cursor: pointer; padding: 0; font-weight: 700; }
+.form-error { color: #fca5a5; text-align: center; font-size: .9rem; }
+.switch-form { line-height: 1.8; }
+.auth-form input { font: inherit; }
+.timer-card { position: relative; max-width: min(540px, 92vw); width: 100%; box-sizing: border-box; }
+.timer-card .close-modal-btn { top: 10px; right: 15px; }
+.timer-card h2 { overflow-wrap: anywhere; }
+.timer-controls { display: flex; justify-content: center; flex-wrap: wrap; }
+.prayer-page, .leaderboard-page { padding-bottom: 35px; }
+.prayer-card { max-width: 700px; margin: 24px auto; background: var(--card); border: 1px solid #334155; border-radius: 20px; padding: 24px; }
+.prayer-page > .page-heading { justify-content: center; text-align: center; }
+.prayer-page > .page-heading > div { width: 100%; text-align: center; }
+.prayer-page > .page-heading h1 { text-align: center; }
+.prayer-page .prayer-card { width: 100%; box-sizing: border-box; }
+.hijri-date { color: #a5b4fc; text-align: center; font-weight: 700; }
+.next-prayer { display: flex; justify-content: center; align-items: center; gap: 8px; flex-wrap: wrap; padding: 12px; color: #cbd5e1; }
+.next-prayer strong { color: #a5b4fc; }
+.next-prayer span { font-variant-numeric: tabular-nums; direction: ltr; padding-inline-start: 5px; }
+.prayers-list { width: 100%; max-width: 640px; margin: 15px auto 0; border-collapse: collapse; table-layout: fixed; text-align: center; }
+.prayers-list th, .prayers-list td { padding: 12px; border-bottom: 1px solid #334155; }
+.prayers-list th { color: #a5b4fc; }
+.prayers-list td[dir="ltr"] { font-variant-numeric: tabular-nums; }
+.elSalah-quotes { color: #cbd5e1; text-align: center; font-size: 1.1rem; margin: 24px; }
+.remembrance-section { margin-top: 35px; }
+.remembrance-section h2 { text-align: center; }
+.remembrance-cards { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+.dua-card { width: 100%; font: inherit; color: inherit; }
+.dua-card:disabled { opacity: 1; }
+.prayer-lock-overlay { position: fixed; inset: auto 18px 88px auto; z-index: 3000; width: min(340px, calc(100vw - 36px)); box-sizing: border-box; background: var(--card); border: 1px solid #475569; border-radius: 18px; padding: 16px 20px; box-shadow: 0 16px 40px #0008; text-align: center; }
+.overlay-content { position: relative; max-width: 520px; }
+.prayer-reminder-dismiss { position: absolute; top: -8px; right: -10px; border: 0; background: transparent; color: #cbd5e1; font-size: 24px; line-height: 1; cursor: pointer; }
+.lock-icon { font-size: 1.6rem; }
+.overlay-content h2 { color: #a5b4fc; }
+.overlay-content p { color: #cbd5e1; margin: 6px 0; }
+#return-timer { font-size: 1.25rem; color: #a5b4fc; font-weight: 800; direction: ltr; }
+.leaderboard-page { max-width: 800px; padding-top: 10px; }
+.leaderboard-page > .eyebrow { text-align: center; }
+.leaderboard-page h1 { text-align: center; margin-bottom: 25px; }
+.leaderboard-names { list-style: none !important; }
+.app-toast { position: fixed; z-index: 50; bottom: 24px; left: 50%; transform: translateX(-50%); background: #1e293b; border: 1px solid #475569; color: #e2e8f0; border-radius: 14px; padding: 12px 20px; box-shadow: 0 12px 30px #0005; }
+.quran-reminder { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 18px; padding: 18px 20px; background: var(--card); border: 1px solid #334155; border-radius: 16px; text-align: right; }
+.quran-reminder p { margin: 4px 0 0; color: #94a3b8; }
+.quran-reminder button, .prayer-reminder-dismiss { border: 1px solid #6366f1; background: #6366f1; color: white; border-radius: 10px; padding: 9px 14px; cursor: pointer; white-space: nowrap; }
+
+@media (min-width: 1025px) {
+  .nav-menu { width: 100%; align-items: center; }
+  .nav-btn { width: 100%; justify-content: center; }
+  .nav-label { position: absolute; left: 88px; display: none; white-space: nowrap; background: var(--card); padding: 7px 10px; border-radius: 8px; }
+  .nav-btn:hover .nav-label { display: block; }
+}
+
+@media (max-width: 1024px) {
+  .top-bar { padding-inline: 16px; }
+  .app-container { height: auto; min-height: calc(100svh - 72px); }
+  .side-menu { top: auto; bottom: 0; height: 70px; }
+  .content-area { margin: 0 0 80px; padding: 24px 16px; }
+  .nav-label { display: none; }
+  .nav-menu { align-items: center; }
+  .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .task-item { flex-direction: row !important; align-items: center !important; text-align: right !important; }
+  .task-body { flex-direction: row !important; align-items: center !important; width: auto !important; }
+  .controlsButtons { display: flex !important; width: auto !important; margin: 0 !important; padding: 0 !important; border: 0 !important; }
+  .controlsButtons button { margin: 0 !important; }
+  .task-form { flex-direction: row; }
+  #taskInput, .task-form #taskCategory, .task-form #taskPriority { width: auto !important; }
+  .task-form #addBtn { width: auto !important; }
+}
+@media (max-width: 600px) {
+  .top-bar { height: 66px; padding: 8px 12px; }
+  .app-container { min-height: calc(100svh - 66px); }
+  .side-menu { height: 64px; }
+  .content-area { padding: 22px 14px; }
+  .stats-grid { grid-template-columns: 1fr; }
+  .task-form { display: grid; grid-template-columns: 1fr 1fr; }
+  .task-form #taskInput, .focus-select { grid-column: 1 / -1; }
+  .task-form select { width: 100% !important; }
+  .task-form #addBtn { width: 100% !important; }
+  .focus-select { justify-content: space-between; }
+  .focus-select select { flex: 1; }
+  .task-item { flex-direction: column !important; align-items: stretch !important; }
+  .task-body { justify-content: flex-start; }
+  .controlsButtons { justify-content: flex-start; border-top: 1px solid rgba(255,255,255,.08) !important; padding-top: 12px !important; }
+  .page-heading { align-items: flex-start; }
+  .page-heading > p { width: 100%; }
+  .signed-in-user { gap: 7px; padding: 5px 8px; }
+  .profile-info { gap: 5px; font-size: .85rem; }
+  .btn-auth, .btn-logout { padding: 7px 10px; font-size: .78rem; }
+  .prayer-card { padding: 16px 12px; }
+  .quran-reminder { align-items: flex-start; flex-direction: column; }
+}
