@@ -10,7 +10,7 @@ https://study-buddy-backend-pi.vercel.app
 
 Users install from the browser menu. New frontend deployments update the installed PWA when its service worker checks for a new version; users do not reinstall it.
 
-Notification controls are available to signed-in users. Push requires the backend VAPID settings and the Cloudflare minutely scheduler described in `../backend/notification-worker/README.md`.
+Notification controls are available to signed-in users. Task reminders start after two hours without task activity and repeat every four hours while incomplete tasks remain, during 08:00–22:00 in the device's local time. Push requires the backend VAPID settings and the Cloudflare minutely scheduler described in `../backend/notification-worker/README.md`.
 
 For Google login through the same-origin proxy, put `https://study-buddy-ev9.pages.dev` first in the Vercel backend's comma-separated `CLIENT_ORIGIN` allowlist. Preserve any origins still used by native builds, and add `http://localhost:5173` if local login is needed. Set `GOOGLE_CALLBACK_URL` to:
 
