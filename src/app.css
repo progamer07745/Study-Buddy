@@ -20,6 +20,8 @@ button { touch-action: manipulation; }
 .hero-brand h1, .page-heading h1, .leaderboard-page h1 { margin: 0; font-size: clamp(1.8rem, 4vw, 2.6rem); }
 .hero-brand p { margin: 0; color: #94a3b8; direction: ltr; text-align: right; font-size: .9rem; }
 .brand-mark { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 18px; background: linear-gradient(135deg, #818cf8, #4f46e5); color: white; font-weight: 800; font-size: 1.2rem; box-shadow: 0 10px 28px #6366f144; flex-shrink: 0; }
+.brand-mark-logo { display: block; width: 64px; height: 64px; object-fit: contain; border-radius: 16px; background: none; box-shadow: none; }
+.logo-image { display: block; width: 52px; height: 52px; object-fit: contain; margin: 0 0 50px; }
 .welcome-header { margin-top: 38px; text-align: right; }
 .welcome-header h2 { font-size: clamp(1.4rem, 3vw, 2rem); margin: 5px 0; }
 .eyebrow { color: #a5b4fc; font-size: .85rem; font-weight: 700; letter-spacing: .04em; margin: 0 0 8px; }
@@ -42,6 +44,13 @@ button { touch-action: manipulation; }
 .cancel-edit { border: 1px solid #475569; background: transparent; color: white; border-radius: 10px; padding: 0 15px; }
 .inline-notice { color: #a5b4fc; text-align: center; margin: 12px 0; }
 .task-list { list-style: none; padding: 0; margin: 20px 0; display: grid; gap: 12px; }
+.task-filters { margin-top: 22px; padding: 16px; border: 1px solid #334155; border-radius: 16px; background: rgba(15, 23, 42, .72); }
+.task-filter-controls { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.task-filter-controls label { display: grid; gap: 6px; min-width: 0; color: #cbd5e1; font-size: .82rem; }
+.task-filter-controls select { min-width: 0; width: 100%; min-height: 42px; padding: 8px 10px; border: 1px solid #475569; border-radius: 10px; color: #f8fafc; background: #1e293b; font: inherit; }
+.task-filter-summary { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 12px; color: #94a3b8; font-size: .82rem; }
+.task-filter-summary button { border: 0; padding: 5px 0; color: #a5b4fc; background: transparent; font: inherit; cursor: pointer; }
+.filter-empty-state .auth-submit-btn { width: auto; padding: 10px 20px; }
 .task-item { flex-direction: row; text-align: right; align-items: center; justify-content: space-between; gap: 16px; }
 .task-body { min-width: 0; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 0; }
 .task-text { overflow-wrap: anywhere; max-width: 42ch; }
@@ -172,4 +181,11 @@ button { touch-action: manipulation; }
   .user-status-container { gap: 6px; }
   .signed-in-user { flex-wrap: wrap; justify-content: center; }
   .notification-panel { padding: 58px 18px 24px; }
+  .task-filter-controls { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 380px) {
+  .task-filter-controls { grid-template-columns: 1fr; }
+}
+@media (max-width: 1024px) {
+  .side-menu .logo-image { display: none; }
 }

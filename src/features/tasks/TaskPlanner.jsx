@@ -16,11 +16,30 @@ export default function TaskPlanner({ onRequireAuth, onUserUpdate }) {
   const [title, setTitle] = useState("");
   const [genre, setGenre] = useState("study");
   const [priority, setPriority] = useState("low");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [priorityFilter, setPriorityFilter] = useState("all");
+  const [genreFilter, setGenreFilter] = useState("all");
+  const [sortOrder, setSortOrder] = useState("newest");
   const [focusTime, setFocusTime] = useState(25);
   const [editingId, setEditingId] = useState(null);
   const [activeTask, setActiveTask] = useState(null);
   const [busy, setBusy] = useState(false);
   const [notice, setNotice] = useState("");
+
+  const filteredTasks = tasks
+    .filter((task) => statusFilter === "all" || (statusFilter === "completed") === task.checked)
+    .filter((task) => priorityFilter === "all" || task.priority === priorityFilter)
+    .filter((task) => genreFilter === "all" || task.genre === genreFilter)
+    .sort((first, second) => {
+      if (sortOrder === "priority") {
+        const rank = { high: 3, medium: 2, low: 1 };
+        return rank[second.priority] - rank[first.priority] || new Date(second.createdAt) - new Date(first.createdAt);
+      }
+      const newestFirst = new Date(second.createdAt) - new Date(first.createdAt);
+      return sortOrder === "oldest" ? -newestFirst : newestFirst;
+    });
+  const filtersActive = statusFilter !== "all" || priorityFilter !== "all" || genreFilter !== "all" || sortOrder !== "newest";
+  const resetFilters = () => { setStatusFilter("all"); setPriorityFilter("all"); setGenreFilter("all"); setSortOrder("newest"); };
 
   const loadTasks = useCallback(async () => {
     if (!userId) { setTasks([]); setTasksLoaded(true); return; }
@@ -94,11 +113,21 @@ export default function TaskPlanner({ onRequireAuth, onUserUpdate }) {
         {editingId && <button type="button" className="cancel-edit" onClick={() => { setEditingId(null); setTitle(""); }}>إلغاء</button>}
       </form>
       {notice && <p className="inline-notice" role="status">{notice}</p>}
-      <ul id="taskList" className="task-list">{tasks.map((task) => <li className={`task-item ${task.checked ? "is-done" : ""}`} key={task._id}>
+      {tasks.length > 0 && <section className="task-filters" aria-label="تصفية وترتيب المهام">
+        <div className="task-filter-controls">
+          <label><span>حالة المهمة</span><select value={statusFilter} onChange={(event) => setStatusFilter(event.target.value)}><option value="all">كل المهام</option><option value="uncompleted">غير مكتملة</option><option value="completed">مكتملة</option></select></label>
+          <label><span>الأولوية</span><select value={priorityFilter} onChange={(event) => setPriorityFilter(event.target.value)}><option value="all">كل الأولويات</option>{priorities.map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select></label>
+          <label><span>التصنيف</span><select value={genreFilter} onChange={(event) => setGenreFilter(event.target.value)}><option value="all">كل التصنيفات</option>{genres.map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select></label>
+          <label><span>الترتيب</span><select value={sortOrder} onChange={(event) => setSortOrder(event.target.value)}><option value="newest">الأحدث أولًا</option><option value="oldest">الأقدم أولًا</option><option value="priority">الأولوية الأعلى أولًا</option></select></label>
+        </div>
+        <div className="task-filter-summary"><span>عرض {filteredTasks.length} من {tasks.length} مهمة</span>{filtersActive && <button type="button" onClick={resetFilters}>مسح الفلاتر</button>}</div>
+      </section>}
+      <ul id="taskList" className="task-list">{filteredTasks.map((task) => <li className={`task-item ${task.checked ? "is-done" : ""}`} key={task._id}>
         <div className="task-body"><span className="task-text">{task.title}</span><span className={`category-badge ${task.genre}`}>{genres.find(([value]) => value === task.genre)?.[1]}</span><span className={`priority-badge p-${task.priority}`}>{priorities.find(([value]) => value === task.priority)?.[1]}</span><span className="focus-time">{task.focusTime} دقيقة · {task.xpEarned} XP</span></div>
         <div className="controlsButtons">{task.checked ? <span className="completed-label"><i className="fas fa-circle-check" /> مكتملة</span> : <><button className="start-timer-btn" onClick={() => setActiveTask(task)} aria-label={`ابدأ ${task.title}`} title="ابدأ التركيز"><i className="fas fa-play" /></button><button className="edit-btn" onClick={() => editTask(task)} aria-label={`تعديل ${task.title}`} title="تعديل"><i className="fas fa-pen" /></button></>}<button className="delete-btn" onClick={() => deleteTask(task)} aria-label={`حذف ${task.title}`} title="حذف"><i className="fas fa-trash" /></button></div>
       </li>)}</ul>
       {tasksLoaded && !tasks.length && <div className="empty-state"><span>📚</span><h3>لسه مفيش مهام</h3><p>أضف أول مهمة وابدأ يومك.</p></div>}
+      {tasksLoaded && tasks.length > 0 && !filteredTasks.length && <div className="empty-state filter-empty-state"><span>🔎</span><h3>مفيش مهام مطابقة للفلاتر دي</h3><p>جرّب تغيّر الاختيارات أو امسح الفلاتر.</p><button type="button" className="auth-submit-btn" onClick={resetFilters}>مسح الفلاتر</button></div>}
       {!tasksLoaded && <p className="loading-state" role="status">جارٍ تحميل مهامك...</p>}
     </>}
     {activeTask && <TimerDialog task={activeTask} onClose={() => setActiveTask(null)} onComplete={completeTask} />}

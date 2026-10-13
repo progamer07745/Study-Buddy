@@ -141,13 +141,13 @@ export default function App() {
     setQuranOpen(false); setQuranError("");
   }
 
-  if (!ready) return <main className="app-loading"><div className="brand-mark">SB</div><p>جارٍ تجهيز مساحة المذاكرة...</p></main>;
+  if (!ready) return <main className="app-loading"><img className="brand-mark brand-mark-logo" src="/study-buddy.svg" alt="Study Buddy" /><p>جارٍ تجهيز مساحة المذاكرة...</p></main>;
   if (user && !user.usernameSetupComplete) return <UsernameSetup />;
 
   return <>
     <header className="top-bar"><div className="user-status-container">{user ? <div className="signed-in-user"><div className="profile-info"><i className="fas fa-circle-user" /><span>{user.username}</span><span className="header-xp">⭐ {user.xp || 0}</span></div><button className="notification-open-btn" onClick={() => setNotificationsOpen(true)} aria-label="إعدادات الإشعارات" title="إعدادات الإشعارات">🔔</button><button className="btn-logout" onClick={logout}>تسجيل الخروج</button></div> : <div className="guest-actions"><button className="btn-auth" onClick={openLogin}>تسجيل الدخول</button><button className="btn-auth primary" onClick={() => setAuthMode("register")}>إنشاء حساب</button></div>}{installReady && <button className="pwa-install-btn" onClick={async () => { const installed = await promptPwaInstall(); if (installed) setInstallReady(false); }}>تثبيت التطبيق</button>}</div></header>
     <div className="app-container">
-      <aside className="side-menu"><div className="logo">SB</div><nav className="nav-menu" aria-label="التنقل الرئيسي">{navigation.map(([id, icon, label]) => <button key={id} className={`nav-btn ${page === id ? "active" : ""}`} onClick={() => goToPage(id)} aria-label={label} title={label}><i className={`fas ${icon}`} /><span className="nav-label">{label}</span></button>)}<div className="xp-status" title="نقاط الخبرة"><span>⭐</span><span id="xp-count">{user?.xp || 0}</span></div></nav></aside>
+      <aside className="side-menu"><img className="logo logo-image" src="/study-buddy.svg" alt="Study Buddy" /><nav className="nav-menu" aria-label="التنقل الرئيسي">{navigation.map(([id, icon, label]) => <button key={id} className={`nav-btn ${page === id ? "active" : ""}`} onClick={() => goToPage(id)} aria-label={label} title={label}><i className={`fas ${icon}`} /><span className="nav-label">{label}</span></button>)}<div className="xp-status" title="نقاط الخبرة"><span>⭐</span><span id="xp-count">{user?.xp || 0}</span></div></nav></aside>
       <main className="content-area">
         <div hidden={page !== "home"}><HomePage quranRead={quranRead} onOpenQuran={() => setQuranOpen(true)} /></div>
         {plannerOpened && <div hidden={page !== "planner"}><TaskPlanner onRequireAuth={openLogin} onUserUpdate={updateUser} /></div>}
