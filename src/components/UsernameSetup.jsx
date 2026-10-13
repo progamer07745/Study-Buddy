@@ -64,7 +64,7 @@ export default function UsernameSetup() {
           required
           autoFocus
         />
-        <p className="username-setup-hint">حروف إنجليزية وأرقام و _ فقط، من 3 إلى 30 حرفًا.</p>
+        <p className="username-setup-hint">حروف إنجليزية وأرقام و _ فقط، من 3 إلى 30 حرفًا. الاسم ده هيظهر للناس في لوحة المتصدرين.</p>
         <label className="username-setup-label" htmlFor="new-password">كلمة مرور Study Buddy</label>
         <input
           id="new-password"

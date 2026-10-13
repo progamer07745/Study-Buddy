@@ -27,7 +27,7 @@ export default function AuthModal({ mode, onClose, onModeChange }) {
         <h2 id="auth-title">{mode === "login" ? "أهلًا بعودتك" : "إنشاء حساب"}</h2>
         {mode === "register" && <>
           <div className="form-group"><input name="name" placeholder="الاسم" autoComplete="name" required maxLength="80" /></div>
-          <div className="form-group"><input name="username" placeholder="اسم المستخدم" autoComplete="username" required minLength="3" maxLength="30" pattern="[A-Za-z0-9_]+" /></div>
+          <div className="form-group"><input name="username" placeholder="اسم المستخدم" aria-describedby="username-public-note" autoComplete="username" required minLength="3" maxLength="30" pattern="[A-Za-z0-9_]+" /><small id="username-public-note" className="field-hint">اسم المستخدم ده هيظهر للناس في لوحة المتصدرين.</small></div>
         </>}
         <div className="form-group"><input type="email" name="email" placeholder="البريد الإلكتروني" autoComplete="email" required maxLength="254" /></div>
         <div className="form-group"><input type="password" name="password" placeholder="كلمة المرور" autoComplete={mode === "login" ? "current-password" : "new-password"} required minLength={mode === "register" ? 10 : 1} maxLength="72" /></div>

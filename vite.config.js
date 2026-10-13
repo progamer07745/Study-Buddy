@@ -9,6 +9,8 @@ export default defineConfig({
       "/tasks": process.env.API_PROXY_TARGET || "http://localhost:5000",
       "/leaderboard": process.env.API_PROXY_TARGET || "http://localhost:5000",
       "/users": process.env.API_PROXY_TARGET || "http://localhost:5000",
+      "/notifications": process.env.API_PROXY_TARGET || "http://localhost:5000",
+      "/health": process.env.API_PROXY_TARGET || "http://localhost:5000",
     },
   },
   build: { sourcemap: false },
